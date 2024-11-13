@@ -4,6 +4,8 @@
  */
 package View;
 
+import java.awt.Component;
+
 /**
  *
  * @author Ericp
@@ -15,6 +17,8 @@ public class frmAgente extends javax.swing.JFrame {
      */
     public frmAgente() {
         initComponents();
+         mapa1.init();
+        Component[] Components = new Component[]{new PanelLocation()};
     }
 
     /**
@@ -26,6 +30,7 @@ public class frmAgente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mapa1 = new Model.Mapa();
         btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -37,21 +42,32 @@ public class frmAgente extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout mapa1Layout = new javax.swing.GroupLayout(mapa1);
+        mapa1.setLayout(mapa1Layout);
+        mapa1Layout.setHorizontalGroup(
+            mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapa1Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(btn)
+                .addContainerGap(139, Short.MAX_VALUE))
+        );
+        mapa1Layout.setVerticalGroup(
+            mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                .addContainerGap(371, Short.MAX_VALUE)
+                .addComponent(btn)
+                .addGap(38, 38, 38))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(btn)
-                .addContainerGap(137, Short.MAX_VALUE))
+            .addComponent(mapa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(349, Short.MAX_VALUE)
-                .addComponent(btn)
-                .addGap(60, 60, 60))
+            .addComponent(mapa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -99,5 +115,6 @@ public class frmAgente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn;
+    private Model.Mapa mapa1;
     // End of variables declaration//GEN-END:variables
 }

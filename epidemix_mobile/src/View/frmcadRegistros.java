@@ -5,6 +5,10 @@
 package View;
 
 import Model.Registros;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,7 +23,28 @@ public class frmcadRegistros extends javax.swing.JFrame {
         initComponents();
     }
     Registros cad = new Registros();
-
+int id;
+     public void ObterDados(){
+      
+       ResultSet tabela;
+       tabela = null;
+    
+       tabela = cad.VerificaUltimoId();
+     //  DefaultTableModel modelo = DefaultTableModel.getModel(tabela(0));
+      // modelo.setNumRows(0);
+       try
+       {
+        do{
+         id = Integer.parseInt(tabela.getString(1));
+          }
+        while(tabela.next());
+        }
+        catch(SQLException erro)
+        {
+            JOptionPane.showMessageDialog(null, "Erro ao preencher tabela"+ erro) ;    
+        }
+      }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,22 +68,21 @@ public class frmcadRegistros extends javax.swing.JFrame {
         txtUF = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtNivel = new javax.swing.JSlider();
-        jButton1 = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
         txtNumero = new javax.swing.JFormattedTextField();
-        jLabel7 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        lblNivel = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
         jTextField3.setText("jTextField3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 102));
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Cep:");
 
-        txtCep.setBackground(new java.awt.Color(255, 255, 255));
-        txtCep.setForeground(new java.awt.Color(0, 0, 0));
         try {
             txtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
         } catch (java.text.ParseException ex) {
@@ -68,26 +92,14 @@ public class frmcadRegistros extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Logradouro:");
 
-        txtLogradouro.setBackground(new java.awt.Color(255, 255, 255));
-        txtLogradouro.setForeground(new java.awt.Color(0, 0, 0));
-
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("N°");
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Bairro:");
 
-        txtBairro.setBackground(new java.awt.Color(255, 255, 255));
-        txtBairro.setForeground(new java.awt.Color(0, 0, 0));
-
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Cidade:");
-
-        txtCidade.setBackground(new java.awt.Color(255, 255, 255));
-        txtCidade.setForeground(new java.awt.Color(0, 0, 0));
-
-        txtUF.setBackground(new java.awt.Color(255, 255, 255));
-        txtUF.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("UF:");
@@ -95,18 +107,35 @@ public class frmcadRegistros extends javax.swing.JFrame {
         txtNivel.setMaximum(5);
         txtNivel.setMinimum(1);
         txtNivel.setValue(1);
+        txtNivel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                txtNivelMouseDragged(evt);
+            }
+        });
+        txtNivel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtNivelMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtNivelMouseReleased(evt);
+            }
+        });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Cancelar");
-        jButton1.setPreferredSize(new java.awt.Dimension(83, 23));
+        btnFechar.setBackground(new java.awt.Color(255, 255, 255));
+        btnFechar.setText("Cancelar");
+        btnFechar.setPreferredSize(new java.awt.Dimension(83, 23));
+        btnFechar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnFecharMouseClicked(evt);
+            }
+        });
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
-        txtNumero.setBackground(new java.awt.Color(255, 255, 255));
-        txtNumero.setForeground(new java.awt.Color(0, 0, 0));
         txtNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Nivel:");
 
         jButton2.setBackground(new java.awt.Color(0, 153, 51));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -117,6 +146,9 @@ public class frmcadRegistros extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        lblNivel.setForeground(new java.awt.Color(255, 255, 255));
+        lblNivel.setText("Nivel 1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,7 +172,7 @@ public class frmcadRegistros extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel5)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblNivel))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,11 +181,11 @@ public class frmcadRegistros extends javax.swing.JFrame {
                         .addComponent(txtCep))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(jButton2))
                         .addComponent(txtNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,17 +215,17 @@ public class frmcadRegistros extends javax.swing.JFrame {
                     .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
+                .addComponent(lblNivel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
-        setBounds(45, 75, 236, 408);
+        setBounds(45, 35, 236, 408);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -201,16 +233,50 @@ public class frmcadRegistros extends javax.swing.JFrame {
         /* Exemplo
         cli.setCodigo(Integer.parseInt(txtCodigo.getText()));
         cli.setNome(txtNome.getText());
+        int nivelAcesso = tabela.getInt("id_tipo_usuario");
         */
+
+       
+    
         cad.setCep(txtCep.getText());
         cad.setLogradouro(txtLogradouro.getText());
         cad.setNumero(txtNumero.getText());
         cad.setBairro(txtBairro.getText());
         cad.setCidade(txtCidade.getText());
         cad.setUf(txtUF.getText());
+        
         cad.setNivel(txtNivel.getValue());
         cad.cadastrarRegistros();
+        ObterDados();
+        cad.setFkid_Endereco(id);
+        cad.ColetarFkId();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtNivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNivelMouseClicked
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_txtNivelMouseClicked
+
+    private void txtNivelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNivelMouseDragged
+        
+    }//GEN-LAST:event_txtNivelMouseDragged
+
+    private void txtNivelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNivelMouseReleased
+        // TODO add your handling code here:
+        int nivel = txtNivel.getValue();
+    lblNivel.setText("Nivel: "+ nivel);    
+    }//GEN-LAST:event_txtNivelMouseReleased
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        // TODO add your handling code here:
+ this.dispose();
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void btnFecharMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFecharMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnFecharMouseClicked
 
     /**
      * @param args the command line arguments
@@ -243,12 +309,13 @@ public class frmcadRegistros extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new frmcadRegistros().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -256,9 +323,9 @@ public class frmcadRegistros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblNivel;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;

@@ -5,6 +5,7 @@
 package Model;
 
 import Controller.Conexao;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.JOptionPane;
@@ -14,8 +15,8 @@ import javax.swing.JOptionPane;
  * @author Ericp
  */
 public class Registros {
-    private LocalDate data;
-    private LocalTime hora;
+  //  private LocalDate data;
+  //  private LocalTime hora;
     private int fkid_Usuario;
     private int fkid_Endereco;
     private int nivel;
@@ -36,8 +37,6 @@ public class Registros {
     
     //LocalDate data, LocalTime hora
     public Registros( int fkid_Usuario, int fkid_Endereco, int nivel, String cep, String logradouro, String numero, String Bairro, String cidade, String uf) {
-        this.data = data;
-        this.hora = hora;
         this.fkid_Usuario = fkid_Usuario;
         this.fkid_Endereco = fkid_Endereco;
         this.nivel = nivel;
@@ -48,7 +47,11 @@ public class Registros {
         this.cidade = cidade;
         this.uf = uf;
     }
+    /* 
     
+      this.data = data;
+        this.hora = hora;
+    */
     
     
  
@@ -140,14 +143,40 @@ public class Registros {
     public void setUf(String uf) {
         this.uf = uf;
     }
+    public ResultSet VerificaUltimoId(){
+     ResultSet tabela;
+        String sql2 = "SELECT MAX(id_endereco) from enderecos;";
+    tabela =  con.RetornarResultset(sql2);
+     return tabela;
+    }
+    
+    public void ColetarFkId(){
+     String sql =  "Insert into registros(data,hora,nivel,id_usuario,id_endereco)values"+
+             "(curdate(),curtime(),'"+this.getNivel()+"','3','"+ this.getFkid_Endereco()+"'); ";
+    con.executeSQL(sql);
+    
+    }
+    
     
        public void cadastrarRegistros(){           
       String sql= "Insert into enderecos(logradouro,numero,bairro,cidade,estado,cep)values"+
-                "('"+ this.getLogradouro()+"','"+ this.getNumero()+"','"+this.getBairro()+"','"+this.getCidade()+"','"+ this.getUf()+"','"+ this.getCep()+"');"+
-               "Insert into registros(data,hora,nivel,id_usuario,id_endereco)values"+
-                "(curdate(),curtime(),'"+this.getNivel()+"','"+this.getFkid_Usuario()+"','"+ this.getFkid_Endereco()+"')";
+                "('"+ this.getLogradouro()+"','"+ this.getNumero()+"','"+this.getBairro()+"','"+this.getCidade()+"','"+ this.getUf()+"','"+ this.getCep()+"');";
+            // +
+      
         con.executeSQL(sql);
+      String sql2 = "SELECT id_endereco from enderecos LAST_INSERT_ID();";
+      //
         JOptionPane.showMessageDialog(null, "Registrado realizado com sucesso");     
     }
     
+       public ResultSet verificarFk()
+    {
+        ResultSet tabela;
+        tabela = null;
+        
+         String sql = "SELECT id_endereco from enderecos ORDER BY id DESC LIMIT 1" ;
+          tabela= con.RetornarResultset(sql);  
+          return tabela;
+    }   
+       //SELECT LAST_INSERT_ID();
 }
