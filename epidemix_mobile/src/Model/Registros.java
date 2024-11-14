@@ -5,10 +5,15 @@
 package Model;
 
 import Controller.Conexao;
+import java.util.List;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import org.jxmapviewer.viewer.DefaultWaypoint;
+import org.jxmapviewer.viewer.GeoPosition;
 
 /**
  *
@@ -27,16 +32,21 @@ public class Registros {
     private String cidade;
     private String uf;
     
+    
+    private double Latitude;
+    private double Longitude;
+    
     Conexao con = new Conexao(); 
 
     public Registros() {
-        this(0,0,0,"","","","","","");
+        this(0,0,0,"","","","","","",0.0000000,0.0000000);
     }
 
     
     
     //LocalDate data, LocalTime hora
-    public Registros( int fkid_Usuario, int fkid_Endereco, int nivel, String cep, String logradouro, String numero, String Bairro, String cidade, String uf) {
+
+    public Registros(int fkid_Usuario, int fkid_Endereco, int nivel, String cep, String logradouro, String numero, String Bairro, String cidade, String uf, double Latitude, double Longitude) {
         this.fkid_Usuario = fkid_Usuario;
         this.fkid_Endereco = fkid_Endereco;
         this.nivel = nivel;
@@ -46,32 +56,28 @@ public class Registros {
         this.Bairro = Bairro;
         this.cidade = cidade;
         this.uf = uf;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
     }
-    /* 
-    
-      this.data = data;
-        this.hora = hora;
-    */
-    
-    
- 
+
+    /*
+    this.data = data;
+    this.hora = hora;
+     */
 /*
     public LocalDate getData() {
-        return data;
+    return data;
     }
-
     public void setData(LocalDate data) {
-        this.data = data;
+    this.data = data;
     }
-
     public LocalTime getHora() {
-        return hora;
+    return hora;
     }
-
     public void setHora(LocalTime hora) {
-        this.hora = hora;
+    this.hora = hora;
     }
-*/
+     */
     public int getFkid_Usuario() {
         return fkid_Usuario;
     }
@@ -143,6 +149,23 @@ public class Registros {
     public void setUf(String uf) {
         this.uf = uf;
     }
+    
+       public double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(double Latitude) {
+        this.Latitude = Latitude;
+    }
+
+    public double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(double Longitude) {
+        this.Longitude = Longitude;
+    }
+    
     public ResultSet VerificaUltimoId(){
      ResultSet tabela;
         String sql2 = "SELECT MAX(id_endereco) from enderecos;";
@@ -178,5 +201,34 @@ public class Registros {
           tabela= con.RetornarResultset(sql);  
           return tabela;
     }   
-       //SELECT LAST_INSERT_ID();
+  public Registros(double latitude, double longitude) {
+        this.Latitude = latitude;
+        this.Longitude = longitude;
+    }
+        public List<Localizacao> carregarLocalizacoes() {
+        List<Localizacao> localizacoes = new ArrayList<>();
+
+        // Configuração da conexão
+        
+
+      
+            String consulta = "SELECT latitude, longitude FROM enderecos"; // Nome da tabela e colunas
+            try (ResultSet rs = con.RetornarResultset(consulta)) {
+
+                // Carrega cada linha do resultado como um objeto Localizacao
+                while (rs.next()) {
+                    double latitude = rs.getDouble("latitude");
+                    double longitude = rs.getDouble("longitude");
+                    localizacoes.add(new Localizacao(latitude, longitude));
+                }
+            }
+         catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return localizacoes;
+    }
+        
+
+      
 }

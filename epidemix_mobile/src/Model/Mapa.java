@@ -5,7 +5,12 @@
  */
 package Model;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 import javax.swing.event.MouseInputListener;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -19,7 +24,9 @@ import org.jxmapviewer.viewer.GeoPosition;
  * @author fatec-dsm2
  */
 public class Mapa extends JXMapViewer {
+    //private final Image image;
     public Mapa(){
+        //image = new ImageIcon(getClass().getResource("/Model/Icon/2288553.png")).getImage();
     }
     
     public void init(){
@@ -33,6 +40,19 @@ public class Mapa extends JXMapViewer {
         addMouseMotionListener(mn);
         addMouseWheelListener(new ZoomMouseWheelListenerCenter(this));
     }
+
+   /*
+     @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+       int x = getWidth()/2 -12;
+       int y = getHeight()/2 -24;
+       g2.drawImage(image,x, y, null);
+    }
+    */
+    
         
     }
 
