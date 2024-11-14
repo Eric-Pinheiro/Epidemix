@@ -18,7 +18,7 @@ public class frmAgente extends javax.swing.JFrame {
     public frmAgente() {
         initComponents();
          mapa1.init();
-        Component[] Components = new Component[]{new PanelLocation()};
+        
     }
 
     /**

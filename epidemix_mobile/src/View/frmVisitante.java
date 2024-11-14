@@ -4,8 +4,6 @@
  */
 package View;
 
-import Model.MyWaypoint;
-import Model.WaypointRender;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +22,7 @@ public class frmVisitante extends javax.swing.JFrame {
     /**
      * Creates new form frmVisitante
      */
-    private final Set<MyWaypoint> waypoints = new HashSet<>();
+   
     
     public frmVisitante() {
         initComponents();
@@ -40,21 +38,7 @@ public class frmVisitante extends javax.swing.JFrame {
     jXMapViewer.setZoom(12); */
     }
 
-    private void initWaypoint(){
-        WaypointPainter<MyWaypoint> wp = new WaypointRender();
-        wp.setWaypoints(waypoints);
-        mapa1.setOverlayPainter(wp);
-        for(MyWaypoint d:waypoints){
-        mapa1.add(d.getButton());
-        }
-                }
-    private void ClearWaypoint(){
-     for(MyWaypoint d:waypoints){
-     mapa1.remove(d.getButton());
-     }
-     waypoints.clear();
-     initWaypoint();
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -130,8 +114,7 @@ public class frmVisitante extends javax.swing.JFrame {
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         // TODO add your handling code here:
-        waypoints.add(new MyWaypoint("Teste", new GeoPosition(-24.496085194523378, -47.84630582814736)));
-        initWaypoint();
+  
     }//GEN-LAST:event_cmdAddActionPerformed
 
     /**

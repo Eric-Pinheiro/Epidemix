@@ -12,6 +12,11 @@ package Model;
 public class Localizacao {
     private double latitude;
     private double longitude;
+    private int nivel;
+
+    public Localizacao(int nivel) {
+        this.nivel = nivel;
+    }
 
     public Localizacao(double latitude, double longitude) {
         this.latitude = latitude;
@@ -24,5 +29,13 @@ public class Localizacao {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 }

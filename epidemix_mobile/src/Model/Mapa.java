@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import javax.swing.ImageIcon;
 import javax.swing.event.MouseInputListener;
 import org.jxmapviewer.JXMapViewer;
@@ -35,10 +36,15 @@ public class Mapa extends JXMapViewer {
     setZoom(20);
     
     
-        MouseInputListener mn = new PanMouseInputListener(this);
+      
+     MouseInputListener mn = new PanMouseInputListener(this);
         addMouseListener(mn);
         addMouseMotionListener(mn);
         addMouseWheelListener(new ZoomMouseWheelListenerCenter(this));
+    
+ 
+
+
     }
 
    /*

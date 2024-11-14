@@ -6,13 +6,22 @@
 package View;
 
 import Controller.Conexao;
+import Model.HeatmapPainter;
 import Model.Localizacao;
+import Model.Mapa;
 import Model.Registros;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Point2D;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputListener;
+import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
@@ -29,6 +38,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     Registros reg = new Registros();
     Conexao con = new Conexao();
+    Mapa mapinha = new Mapa();
     public NewJFrame() {
         initComponents();
            
@@ -41,6 +51,7 @@ public class NewJFrame extends javax.swing.JFrame {
         // criar um do while com um if a partir do id e dentro do if gerar o codigo de add usando o geoPosition com latitude longitude
          List<Localizacao> listaLocalizacoes = reg.carregarLocalizacoes();
 
+         
         // Cria waypoints a partir das localizações
         Set<Waypoint> waypoints = new HashSet<>();
         for (Localizacao loc : listaLocalizacoes) {
@@ -51,10 +62,13 @@ public class NewJFrame extends javax.swing.JFrame {
            
         WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
         waypointPainter.setWaypoints(waypoints);
+HeatmapPainter heatmapPainter = new HeatmapPainter(listaLocalizacoes);
+mapa2.setOverlayPainter(heatmapPainter);
 
         // Adicionar o WaypointPainter ao JXMapViewer
         mapa2.setOverlayPainter(waypointPainter);
-   
+ 
+  
 
     }
 
@@ -68,25 +82,47 @@ public class NewJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         mapa2 = new Model.Mapa();
+        txtLongitude = new javax.swing.JTextField();
+        txtLatitude = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        mapa2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapa2MouseClicked(evt);
+            }
+        });
+
+        txtLongitude.setText("jTextField1");
+
+        txtLatitude.setText("jTextField2");
 
         javax.swing.GroupLayout mapa2Layout = new javax.swing.GroupLayout(mapa2);
         mapa2.setLayout(mapa2Layout);
         mapa2Layout.setHorizontalGroup(
             mapa2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(mapa2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(mapa2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(316, Short.MAX_VALUE))
         );
         mapa2Layout.setVerticalGroup(
             mapa2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(mapa2Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(txtLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(txtLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mapa2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mapa2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,6 +132,20 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mapa2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapa2MouseClicked
+     
+        // TODO add your handling code here:
+  Point2D pontoPixel = evt.getPoint();
+
+        // Converte o ponto em pixels para uma coordenada geográfica
+        GeoPosition geoPos = mapa2.getTileFactory().pixelToGeo(pontoPixel, mapa2.getZoom());
+
+        // Exibe a latitude e a longitude no console ou use conforme necessário
+        System.out.println("Latitude: " + geoPos.getLatitude() + ", Longitude: " + geoPos.getLongitude());
+txtLatitude.setText(""+ geoPos.getLatitude());
+txtLongitude.setText(""+geoPos.getLongitude());
+    }//GEN-LAST:event_mapa2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -134,5 +184,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Model.Mapa mapa2;
+    private javax.swing.JTextField txtLatitude;
+    private javax.swing.JTextField txtLongitude;
     // End of variables declaration//GEN-END:variables
 }
