@@ -26,9 +26,7 @@ import org.jxmapviewer.viewer.GeoPosition;
  */
 public class Mapa extends JXMapViewer {
     //private final Image image;
-    public Mapa(){
-        //image = new ImageIcon(getClass().getResource("/Model/Icon/2288553.png")).getImage();
-    }
+
     
     public void init(){
     setTileFactory(new DefaultTileFactory(new OSMTileFactoryInfo("","https://b.tile.openstreetmap.fr/hot/")));

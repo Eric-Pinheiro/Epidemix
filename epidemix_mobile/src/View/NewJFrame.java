@@ -10,6 +10,15 @@ import Model.HeatmapPainter;
 import Model.Localizacao;
 import Model.Mapa;
 import Model.Registros;
+import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.viewer.*;
+import org.jxmapviewer.painter.Painter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.awt.geom.Point2D;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -21,7 +30,9 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
+import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
@@ -38,7 +49,8 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     Registros reg = new Registros();
     Conexao con = new Conexao();
-    Mapa mapinha = new Mapa();
+    Mapa mapinha = new Mapa(); 
+    
     public NewJFrame() {
         initComponents();
            
@@ -63,12 +75,43 @@ public class NewJFrame extends javax.swing.JFrame {
         WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
         waypointPainter.setWaypoints(waypoints);
 HeatmapPainter heatmapPainter = new HeatmapPainter(listaLocalizacoes);
+
 mapa2.setOverlayPainter(heatmapPainter);
 
         // Adicionar o WaypointPainter ao JXMapViewer
         mapa2.setOverlayPainter(waypointPainter);
  
-  
+  class RoutePainter implements Painter<JXMapViewer> {
+    private final Set<GeoPosition> waypoints;
+
+    public RoutePainter(Set<GeoPosition> waypoints) {
+        this.waypoints = waypoints;
+    }
+
+    @Override
+    public void paint(Graphics2D g, JXMapViewer map, int width, int height) {
+        // Ajusta as coordenadas para o sistema de coordenadas do mapa
+        g = (Graphics2D) g.create();
+        g.setColor(Color.RED);
+        g.setStroke(new BasicStroke(2));
+
+        // Converte GeoPositions em pontos no mapa
+        List<Point2D> points = new ArrayList<>();
+        for (GeoPosition waypoint : waypoints) {
+            Point2D point = map.getTileFactory().geoToPixel(waypoint, map.getZoom());
+            points.add(point);
+        }
+
+        // Desenha as linhas conectando os pontos
+        for (int i = 0; i < points.size() - 1; i++) {
+            Point2D from = points.get(i);
+            Point2D to = points.get(i + 1);
+            g.drawLine((int) from.getX(), (int) from.getY(), (int) to.getX(), (int) to.getY());
+        }
+
+        g.dispose();
+    }
+}
 
     }
 

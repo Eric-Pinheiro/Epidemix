@@ -32,7 +32,7 @@ public class HeatmapPainter implements Painter<JXMapViewer> {
             Point2D ponto = map.getTileFactory().geoToPixel(pos, map.getZoom());
 
             // Configurar a intensidade do ponto
-            float intensidade = loc.getNivel(); // Exemplo: valor de 0.0 (baixo) a 1.0 (alto)
+            int intensidade = loc.getNivel(); // Exemplo: valor de 0.0 (baixo) a 1.0 (alto)
 
             // Escolher a cor com base na intensidade (de verde a vermelho)
             Color cor = getCorPorIntensidade(intensidade);

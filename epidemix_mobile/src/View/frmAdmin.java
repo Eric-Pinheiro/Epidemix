@@ -4,18 +4,82 @@
  */
 package View;
 
+import Controller.Conexao;
+import Model.HeatmapPainter;
+import Model.Localizacao;
+import Model.Mapa;
+import Model.Registros;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Point2D;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputListener;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.viewer.DefaultWaypoint;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
+
 /**
  *
  * @author Ericp
  */
 public class frmAdmin extends javax.swing.JFrame {
+private double latitude;
+private double longitude;
 
+    public frmAdmin(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
     /**
      * Creates new form frmAdmin
      */
+    Registros reg = new Registros();
     public frmAdmin() {
         initComponents();
          mapa1.init();
+          GeoPosition centro = new GeoPosition(-24.49609687511922, -47.846299351792965); // Coordenadas de São Paulo
+        mapa1.setAddressLocation(centro);
+        mapa1.setZoom(4);
+           List<Localizacao> listaLocalizacoes = reg.carregarLocalizacoes();
+
+         
+        // Cria waypoints a partir das localizações
+        Set<Waypoint> waypoints = new HashSet<>();
+        for (Localizacao loc : listaLocalizacoes) {
+            GeoPosition posicao = new GeoPosition(loc.getLatitude(), loc.getLongitude());
+            waypoints.add(new DefaultWaypoint(posicao));
+        }
+           
+           
+        WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+        waypointPainter.setWaypoints(waypoints);
+         mapa1.setOverlayPainter(waypointPainter);
     }
 
     /**
@@ -27,19 +91,88 @@ public class frmAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblLat = new javax.swing.JTextField();
+        lblLon = new javax.swing.JTextField();
         mapa1 = new Model.Mapa();
+        jButton1 = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        toggle = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        lblLat.setText("jTextField1");
+
+        lblLon.setText("jTextField1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        mapa1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapa1MouseClicked(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jButton1.setText("Logo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnVer.setText("Rotas");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("+");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        toggle.setText("Ligado");
+        toggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mapa1Layout = new javax.swing.GroupLayout(mapa1);
         mapa1.setLayout(mapa1Layout);
         mapa1Layout.setHorizontalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 292, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mapa1Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                        .addGap(0, 32, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)))
+                .addComponent(btnVer)
+                .addGap(50, 50, 50))
+            .addGroup(mapa1Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(toggle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mapa1Layout.setVerticalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
+            .addGroup(mapa1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
+                .addComponent(toggle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVer)
+                    .addComponent(jButton2))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -55,6 +188,90 @@ public class frmAdmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        frmPopup popup = new frmPopup();
+        new frmPopup().setVisible(true);
+        popup.setVerificar(1);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+         new frmPopupAdm().setVisible(true);
+    }//GEN-LAST:event_btnVerActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       frmcadRegistros frmCad = new frmcadRegistros();
+  frmCad.setVisible(true);
+            frmCad.lblLat.setText(""+getLatitude());
+            frmCad.lblLon.setText(""+getLongitude());
+            
+    }//GEN-LAST:event_jButton2ActionPerformed
+public void fechar(){
+this.setVisible(false);
+
+}
+    private void mapa1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapa1MouseClicked
+        // TODO add your handling code here:
+          Point2D pontoPixel = evt.getPoint();
+
+   
+       //recebe o valor dos pixels. teste de click
+        GeoPosition geoPos = mapa1.getTileFactory().pixelToGeo(pontoPixel, mapa1.getZoom());
+             // Converte o ponto em pixels para uma coordenada geográfica
+         GeoPosition geoPosition = mapa1.convertPointToGeoPosition(pontoPixel);
+
+        // Exibe a latitude e a longitude no console ou use conforme necessário
+        System.out.println("Lat: "+ geoPosition.getLatitude());
+        System.out.println("Latitude: " + geoPos.getLatitude() + ", Longitude: " + geoPos.getLongitude());
+BigDecimal lat = new BigDecimal(geoPosition.getLatitude()).setScale(7, RoundingMode.HALF_UP);
+BigDecimal lon = new BigDecimal(geoPosition.getLongitude()).setScale(7, RoundingMode.HALF_UP);
+setLatitude(lat.doubleValue());
+setLongitude(lon.doubleValue());
+lblLat.setText(""+ getLatitude());
+lblLon.setText(""+ getLongitude());
+List<Localizacao> listaLocalizacoes = reg.carregarLocalizacoes();
+
+         
+        // Cria waypoints a partir das localizações
+        Set<Waypoint> waypoints = new HashSet<>();
+        for (Localizacao loc : listaLocalizacoes) {
+            GeoPosition posicao = new GeoPosition(loc.getLatitude(), loc.getLongitude());
+            waypoints.add(new DefaultWaypoint(posicao));
+        }
+           
+           
+        WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+        waypointPainter.setWaypoints(waypoints);
+        mapa1.setOverlayPainter(waypointPainter);
+    }//GEN-LAST:event_mapa1MouseClicked
+
+    private void toggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleActionPerformed
+        // TODO add your handling code here:
+        if (toggle.isSelected()) {
+            
+            toggle.setText("Desligado");
+            Set<Waypoint> waypoints = new HashSet<>();
+            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+            waypointPainter.setWaypoints(waypoints);
+            mapa1.setOverlayPainter(waypointPainter);
+        } else {
+                toggle.setText("Ligado");
+            List<Localizacao> listaLocalizacoes = reg.carregarLocalizacoes();
+
+            // Cria waypoints a partir das localizações
+            Set<Waypoint> waypoints = new HashSet<>();
+            for (Localizacao loc : listaLocalizacoes) {
+                GeoPosition posicao = new GeoPosition(loc.getLatitude(), loc.getLongitude());
+                waypoints.add(new DefaultWaypoint(posicao));
+            }
+
+            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+            waypointPainter.setWaypoints(waypoints);
+            mapa1.setOverlayPainter(waypointPainter);
+        }
+    }//GEN-LAST:event_toggleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -93,6 +310,12 @@ public class frmAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnVer;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JTextField lblLat;
+    private javax.swing.JTextField lblLon;
     private Model.Mapa mapa1;
+    private javax.swing.JToggleButton toggle;
     // End of variables declaration//GEN-END:variables
 }

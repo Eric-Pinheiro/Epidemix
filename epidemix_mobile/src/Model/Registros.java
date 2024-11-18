@@ -8,6 +8,7 @@ import Controller.Conexao;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -35,11 +36,30 @@ public class Registros {
     
     private double Latitude;
     private double Longitude;
+    private String valLat;
+    private String valLon;
+    
     
     Conexao con = new Conexao(); 
 
     public Registros() {
-        this(0,0,0,"","","","","","",0.0000000,0.0000000);
+        this(0,0,0,"","","","","","",0.0000000,0.0000000,"","");
+    }
+
+    public Registros(int fkid_Usuario, int fkid_Endereco, int nivel, String cep, String logradouro, String numero, String Bairro, String cidade, String uf, double Latitude, double Longitude, String valLat, String valLon) {
+        this.fkid_Usuario = fkid_Usuario;
+        this.fkid_Endereco = fkid_Endereco;
+        this.nivel = nivel;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.Bairro = Bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+        this.valLat = valLat;
+        this.valLon = valLon;
     }
 
     
@@ -60,11 +80,28 @@ public class Registros {
         this.Longitude = Longitude;
     }
 
+    public String getValLat() {
+        return valLat;
+    }
+
+    public void setValLat(String valLat) {
+        this.valLat = valLat;
+    }
+
+    public String getValLon() {
+        return valLon;
+    }
+
+
+    public void setValLon(String valLon) {
+        this.valLon = valLon;
+    }
     /*
     this.data = data;
     this.hora = hora;
      */
 /*
+    
     public LocalDate getData() {
     return data;
     }
@@ -180,10 +217,9 @@ public class Registros {
     
     }
     
-    
        public void cadastrarRegistros(){           
-      String sql= "Insert into enderecos(logradouro,numero,bairro,cidade,estado,cep)values"+
-                "('"+ this.getLogradouro()+"','"+ this.getNumero()+"','"+this.getBairro()+"','"+this.getCidade()+"','"+ this.getUf()+"','"+ this.getCep()+"');";
+      String sql= "Insert into enderecos(logradouro,numero,bairro,cidade,estado,cep, latitude, longitude)values"+
+                "('"+ this.getLogradouro()+"','"+ this.getNumero()+"','"+this.getBairro()+"','"+this.getCidade()+"','"+ this.getUf()+"','"+ this.getCep()+"','"+ this.getLatitude()+"','"+ this.getLongitude()+"');";
             // +
       
         con.executeSQL(sql);
@@ -226,9 +262,17 @@ public class Registros {
             e.printStackTrace();
         }
 
+            
         return localizacoes;
     }
         
-
+public ResultSet rotas(){
+   ResultSet tabela;
+        tabela = null;
+        
+         String sql = "SELECT nivel from registros";
+          tabela= con.RetornarResultset(sql);  
+          return tabela;
+}
       
 }
