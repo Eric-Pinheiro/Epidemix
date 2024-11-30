@@ -50,7 +50,8 @@ public class frmVisitante extends javax.swing.JFrame {
 
         mapa1 = new Model.Mapa();
         toggle = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        epidemix_menu = new javax.swing.JLabel();
+        gps_center = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,11 +62,17 @@ public class frmVisitante extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jButton1.setText("Logo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        epidemix_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/icon_epidemix_red.png"))); // NOI18N
+        epidemix_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                epidemix_menuMouseClicked(evt);
+            }
+        });
+
+        gps_center.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/gps_first_point.png"))); // NOI18N
+        gps_center.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gps_centerMouseClicked(evt);
             }
         });
 
@@ -74,23 +81,25 @@ public class frmVisitante extends javax.swing.JFrame {
         mapa1Layout.setHorizontalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapa1Layout.createSequentialGroup()
-                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mapa1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mapa1Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(toggle, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(epidemix_menu)
+                .addContainerGap(256, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(toggle, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(gps_center))
         );
         mapa1Layout.setVerticalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapa1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
-                .addComponent(toggle)
-                .addGap(33, 33, 33))
+                .addContainerGap()
+                .addComponent(epidemix_menu)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 546, Short.MAX_VALUE)
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gps_center)
+                    .addComponent(toggle))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,12 +143,17 @@ public class frmVisitante extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_toggleActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void epidemix_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_epidemix_menuMouseClicked
         frmPopup popup = new frmPopup();
         new frmPopup().setVisible(true);
         popup.setVerificar(1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_epidemix_menuMouseClicked
+
+    private void gps_centerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gps_centerMouseClicked
+        GeoPosition centro = new GeoPosition(-24.49609687511922, -47.846299351792965);
+        mapa1.setAddressLocation(centro);
+        mapa1.setZoom(4);
+    }//GEN-LAST:event_gps_centerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -177,7 +191,8 @@ public class frmVisitante extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel epidemix_menu;
+    private javax.swing.JLabel gps_center;
     private Model.Mapa mapa1;
     private javax.swing.JToggleButton toggle;
     // End of variables declaration//GEN-END:variables

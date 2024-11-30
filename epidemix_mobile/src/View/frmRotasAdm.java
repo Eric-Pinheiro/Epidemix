@@ -6,6 +6,9 @@ package View;
 
 import Model.Localizacao;
 import Model.Registros;
+import java.awt.geom.Point2D;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +22,15 @@ import org.jxmapviewer.viewer.WaypointPainter;
  * @author Ericp
  */
 public class frmRotasAdm extends javax.swing.JFrame {
+    private double latitude;
+private double longitude;
 private int rota;
+
+
+    public frmRotasAdm(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public frmRotasAdm(int rota) {
         this.rota = rota;
@@ -67,37 +78,59 @@ private int rota;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblLon = new javax.swing.JTextField();
+        lblLat = new javax.swing.JTextField();
         mapa1 = new Model.Mapa();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        epidemix_menu = new javax.swing.JLabel();
+        toggle = new javax.swing.JToggleButton();
+        txt_point = new javax.swing.JLabel();
+        txt_rotas = new javax.swing.JLabel();
+        gps_center = new javax.swing.JLabel();
+
+        lblLon.setText("jTextField1");
+
+        lblLat.setText("jTextField2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("Rotas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        mapa1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapa1MouseClicked(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jButton1.setText("Logo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        epidemix_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/icon_epidemix_red.png"))); // NOI18N
+        epidemix_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                epidemix_menuMouseClicked(evt);
             }
         });
 
-        jButton3.setText("O");
-        jButton3.addHierarchyListener(new java.awt.event.HierarchyListener() {
-            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
-                jButton3HierarchyChanged(evt);
+        toggle.setText("Ligado");
+        toggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleActionPerformed(evt);
             }
         });
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+
+        txt_point.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/pin.png"))); // NOI18N
+        txt_point.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_pointMouseClicked(evt);
+            }
+        });
+
+        txt_rotas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/rout.png"))); // NOI18N
+        txt_rotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_rotasMouseClicked(evt);
+            }
+        });
+
+        gps_center.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/gps_first_point.png"))); // NOI18N
+        gps_center.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gps_centerMouseClicked(evt);
             }
         });
 
@@ -106,26 +139,36 @@ private int rota;
         mapa1Layout.setHorizontalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapa1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(mapa1Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(22, 22, 22))
+                .addContainerGap()
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mapa1Layout.createSequentialGroup()
+                        .addComponent(epidemix_menu)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addComponent(toggle)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_point)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_rotas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(gps_center)
+                        .addContainerGap())))
         );
         mapa1Layout.setVerticalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
-                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(29, 29, 29))
+                .addContainerGap()
+                .addComponent(epidemix_menu)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 532, Short.MAX_VALUE)
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_rotas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txt_point, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(gps_center, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                        .addComponent(toggle)
+                        .addGap(25, 25, 25)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,26 +185,73 @@ private int rota;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-         new frmPopupAdm().setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void epidemix_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_epidemix_menuMouseClicked
+        frmPopup popup = new frmPopup();
         new frmPopup().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        popup.setVerificar(1);
+    }//GEN-LAST:event_epidemix_menuMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    private void txt_pointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_pointMouseClicked
+        frmcadRegistros frmCad = new frmcadRegistros();
+        frmCad.setVisible(true);
+        frmCad.lblLat.setText(""+getLatitude());
+        frmCad.lblLon.setText(""+getLongitude());
+    }//GEN-LAST:event_txt_pointMouseClicked
+
+    private void txt_rotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_rotasMouseClicked
+        new frmPopupAdm().setVisible(true);
+    }//GEN-LAST:event_txt_rotasMouseClicked
+
+    private void gps_centerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gps_centerMouseClicked
         GeoPosition centro = new GeoPosition(-24.49609687511922, -47.846299351792965);
-         mapa1.setAddressLocation(centro);
+        mapa1.setAddressLocation(centro);
         mapa1.setZoom(4);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_gps_centerMouseClicked
 
-    private void jButton3HierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jButton3HierarchyChanged
+    private void toggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleActionPerformed
+        if (toggle.isSelected()) {
+
+            toggle.setText("Desligado");
+            Set<Waypoint> waypoints = new HashSet<>();
+            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+            waypointPainter.setWaypoints(waypoints);
+            mapa1.setOverlayPainter(waypointPainter);
+        } else {
+            toggle.setText("Ligado");
+            List<Localizacao> listaLocalizacoes = reg.carregarLocalizacoes();
+
+            // Cria waypoints a partir das localizações
+            Set<Waypoint> waypoints = new HashSet<>();
+            for (Localizacao loc : listaLocalizacoes) {
+                GeoPosition posicao = new GeoPosition(loc.getLatitude(), loc.getLongitude());
+                waypoints.add(new DefaultWaypoint(posicao));
+            }
+
+            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+            waypointPainter.setWaypoints(waypoints);
+            mapa1.setOverlayPainter(waypointPainter);
+        }
+    }//GEN-LAST:event_toggleActionPerformed
+
+    private void mapa1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapa1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3HierarchyChanged
+          Point2D pontoPixel = evt.getPoint();
+
+   
+       //recebe o valor dos pixels. teste de click
+        GeoPosition geoPos = mapa1.getTileFactory().pixelToGeo(pontoPixel, mapa1.getZoom());  
+        GeoPosition geoPosition = mapa1.convertPointToGeoPosition(pontoPixel);
+
+        // Exibe a latitude e a longitude no console ou use conforme necessário
+        System.out.println("Lat: "+ geoPosition.getLatitude());
+        System.out.println("Latitude: " + geoPos.getLatitude() + ", Longitude: " + geoPos.getLongitude());
+BigDecimal lat = new BigDecimal(geoPosition.getLatitude()).setScale(7, RoundingMode.HALF_UP);
+BigDecimal lon = new BigDecimal(geoPosition.getLongitude()).setScale(7, RoundingMode.HALF_UP);
+setLatitude(lat.doubleValue());
+setLongitude(lon.doubleValue());
+lblLat.setText(""+ getLatitude());
+lblLon.setText(""+ getLongitude());
+    }//GEN-LAST:event_mapa1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -202,9 +292,29 @@ private int rota;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel epidemix_menu;
+    private javax.swing.JLabel gps_center;
+    private javax.swing.JTextField lblLat;
+    private javax.swing.JTextField lblLon;
     private Model.Mapa mapa1;
+    private javax.swing.JToggleButton toggle;
+    private javax.swing.JLabel txt_point;
+    private javax.swing.JLabel txt_rotas;
     // End of variables declaration//GEN-END:variables
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

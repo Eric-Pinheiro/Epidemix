@@ -32,8 +32,9 @@ private int rotas;
         btnRota1 = new javax.swing.JButton();
         btnRota2 = new javax.swing.JButton();
         btnRota3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -41,33 +42,27 @@ private int rotas;
         setBackground(new java.awt.Color(102, 102, 102));
         setUndecorated(true);
 
-        btnRota1.setText("Rota 1");
+        btnRota1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/dedet_rout.png"))); // NOI18N
+        btnRota1.setText("   Rota 1");
         btnRota1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRota1ActionPerformed(evt);
             }
         });
 
-        btnRota2.setText("Rota 2");
+        btnRota2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/dedet_rout.png"))); // NOI18N
+        btnRota2.setText("   Rota 2");
         btnRota2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRota2ActionPerformed(evt);
             }
         });
 
-        btnRota3.setText("Rota 3");
+        btnRota3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/dedet_rout.png"))); // NOI18N
+        btnRota3.setText("   Rota 3");
         btnRota3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRota3ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(153, 0, 0));
-        jButton1.setText("x");
-        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -82,71 +77,76 @@ private int rotas;
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/exit.png"))); // NOI18N
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Selecione uma rota:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRota3)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRota3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRota2)
                     .addComponent(btnRota1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jButton2)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(btnRota1))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(btnRota1)
                 .addGap(18, 18, 18)
                 .addComponent(btnRota2)
                 .addGap(18, 18, 18)
                 .addComponent(btnRota3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        setBounds(55, 135, 167, 194);
+        setBounds(55, 135, 170, 330);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRota1ActionPerformed
-        // TODO add your handling code here:
-        int rota = 1;
-
         new frmRotasAdm().setVisible(true);
-
-
     }//GEN-LAST:event_btnRota1ActionPerformed
 
     private void btnRota2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRota2ActionPerformed
-        // TODO add your handling code here:
          new frmRotasAdm().setVisible(true);
     }//GEN-LAST:event_btnRota2ActionPerformed
 
     private void btnRota3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRota3ActionPerformed
-        // TODO add your handling code here:
          new frmRotasAdm().setVisible(true);
     }//GEN-LAST:event_btnRota3ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         new frmAdmin().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -190,8 +190,9 @@ private int rotas;
     private javax.swing.JButton btnRota1;
     private javax.swing.JButton btnRota2;
     private javax.swing.JButton btnRota3;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

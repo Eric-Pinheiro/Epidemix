@@ -4,6 +4,8 @@
  */
 package View;
 
+import org.jxmapviewer.viewer.GeoPosition;
+
 /**
  *
  * @author Ericp
@@ -28,23 +30,30 @@ public class frmDedetizador extends javax.swing.JFrame {
     private void initComponents() {
 
         mapa1 = new Model.Mapa();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        epidemix_menu = new javax.swing.JLabel();
+        txt_rotas = new javax.swing.JLabel();
+        gps_center = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jButton1.setText("Logo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        epidemix_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/icon_epidemix_red.png"))); // NOI18N
+        epidemix_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                epidemix_menuMouseClicked(evt);
             }
         });
 
-        jButton2.setText("Rotas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        txt_rotas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/rout.png"))); // NOI18N
+        txt_rotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_rotasMouseClicked(evt);
+            }
+        });
+
+        gps_center.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/icons/gps_first_point.png"))); // NOI18N
+        gps_center.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gps_centerMouseClicked(evt);
             }
         });
 
@@ -53,23 +62,28 @@ public class frmDedetizador extends javax.swing.JFrame {
         mapa1Layout.setHorizontalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapa1Layout.createSequentialGroup()
-                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mapa1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(mapa1Layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(jButton2)))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(epidemix_menu)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(mapa1Layout.createSequentialGroup()
+                .addGap(119, 119, 119)
+                .addComponent(txt_rotas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addComponent(gps_center))
         );
         mapa1Layout.setVerticalGroup(
             mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mapa1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapa1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mapa1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(mapa1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(gps_center))
+                    .addGroup(mapa1Layout.createSequentialGroup()
+                        .addComponent(epidemix_menu)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 532, Short.MAX_VALUE)
+                        .addComponent(txt_rotas)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -86,15 +100,21 @@ public class frmDedetizador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void epidemix_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_epidemix_menuMouseClicked
+        frmPopup popup = new frmPopup();
         new frmPopup().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        popup.setVerificar(1);
+    }//GEN-LAST:event_epidemix_menuMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new frmPopupRotas().setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void txt_rotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_rotasMouseClicked
+        new frmPopupAdm().setVisible(true);
+    }//GEN-LAST:event_txt_rotasMouseClicked
+
+    private void gps_centerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gps_centerMouseClicked
+        GeoPosition centro = new GeoPosition(-24.49609687511922, -47.846299351792965);
+        mapa1.setAddressLocation(centro);
+        mapa1.setZoom(4);
+    }//GEN-LAST:event_gps_centerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -133,8 +153,9 @@ public class frmDedetizador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel epidemix_menu;
+    private javax.swing.JLabel gps_center;
     private Model.Mapa mapa1;
+    private javax.swing.JLabel txt_rotas;
     // End of variables declaration//GEN-END:variables
 }
